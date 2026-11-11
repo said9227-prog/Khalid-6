@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>شعيب 3D - استوديو السينما والمؤثرات ثلاثية الأبعاد</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #121214;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        #viewport-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #121214;
+        }
+        #loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #121214;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #FFD700;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            z-index: 999;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255, 215, 0, 0.2);
+            border-top: 4px solid #FFD700;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 16px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-title {
+            color: #FFD700;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .loading-subtitle {
+            color: #A1A1AA;
+            font-size: 12px;
+            font-weight: 400;
+        }
+    </style>
+
+    <script>
+        // Global error catcher and failsafe loading overlay remover
+        window.addEventListener('error', function(e) {
+            console.error("3D Studio Global Error:", e.message, "at", e.filename, ":", e.lineno);
+            dismissLoadingOverlay();
+        });
+
+        function dismissLoadingOverlay() {
+            var overlay = document.getElementById('loading-overlay');
+            if (overlay) {
+                overlay.style.opacity = '0';
+                setTimeout(function() {
+                    if (overlay && overlay.parentNode) {
+                        overlay.parentNode.removeChild(overlay);
+                    }
+                }, 300);
+            }
+        }
+
+        // Failsafe timeout: Force dismiss spinner within 1200ms regardless of any delays
+        setTimeout(dismissLoadingOverlay, 1200);
+    </script>
+
+    <!-- 100% Offline Standalone 3D Libraries (Zero Remote Network Dependencies) -->
+    <script src="three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script src="GLTFLoader.js"></script>
+    <script src="OBJLoader.js"></script>
+    <script src="helvetiker_bold.js"></script>
+    <script src="arabic-shaper.js"></script>
+    <script src="font-droid-sans.js"></script>
+    <script src="studio-engine.js"></script>
+</head>
+<body>
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-title">استوديو شعيب 3D</div>
+        <div class="loading-subtitle">جاري تحميل المحرك ثلاثي الأبعاد...</div>
+    </div>
+    <div id="viewport-container"></div>
+</body>
+</html>
